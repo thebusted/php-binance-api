@@ -56,6 +56,8 @@ class API
     protected $subscriptions = []; // /< View all websocket subscriptions
     protected $btc_value = 0.00; // /< value of available assets
     protected $btc_total = 0.00;
+    
+    protected $depth_limit = null;
 
     // /< value of available onOrder assets
     
@@ -1116,7 +1118,10 @@ class API
      */
     public function depth(string $symbol, int $limit = 100)
     {
-        if (is_int($limit) === false) {
+        if (is_int($this->depth_limit)) {
+            $limit = $this->depth_limit;
+        }
+        elseif (is_int($limit) === false) {
             $limit = 100;
         }
 
